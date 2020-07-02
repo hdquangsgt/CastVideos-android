@@ -49,8 +49,7 @@ public class VideoBrowserFragment extends Fragment implements VideoListAdapter.I
         LoaderManager.LoaderCallbacks<List<MediaInfo>> {
 
     private static final String TAG = "VideoBrowserFragment";
-    private static final String CATALOG_URL =
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/f.json";
+    private static final String CATALOG_URL = "data.json";
     private RecyclerView mRecyclerView;
     private VideoListAdapter mAdapter;
     private View mEmptyView;
@@ -63,7 +62,7 @@ public class VideoBrowserFragment extends Fragment implements VideoListAdapter.I
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.video_browser_fragment, container, false);
     }
 

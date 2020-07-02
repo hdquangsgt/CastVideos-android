@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -104,14 +105,31 @@ public class VideoProvider {
         }
     }
 
-    public static List<MediaInfo> buildMedia(String url) throws JSONException {
+    private static String readJSONFromAsset(Context context, String url) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(url);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+    public static List<MediaInfo> buildMedia(Context context, String url) throws JSONException {
 
         if (null != mediaList) {
             return mediaList;
         }
         Map<String, String> urlPrefixMap = new HashMap<>();
         mediaList = new ArrayList<>();
-        JSONObject jsonObj = new VideoProvider().parseUrl(url);
+
+        JSONObject jsonObj = new JSONObject(readJSONFromAsset(context, url));
         JSONArray categories = jsonObj.getJSONArray(TAG_CATEGORIES);
         if (null != categories) {
             for (int i = 0; i < categories.length(); i++) {
